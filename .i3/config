@@ -3,10 +3,10 @@
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
-#set $mod2 Menu
 
 # set default desktop layout (default is tiling)
-# workspace_layout tabbed <stacking|tabbed>
+#workspace_layout tabbed <stacking|tabbed>
+workspace_layout tabbed 
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 new_window pixel 1
@@ -57,7 +57,8 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 
 # Start Applications
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
-bindsym $mod+F2 exec firefox
+bindsym $mod+F2 exec chromium
+bindsym XF86Launch1 exec chromium
 bindsym $mod+F3 exec pcmanfm
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F3 exec gksu pcmanfm
@@ -71,7 +72,8 @@ bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
-# focus_follows_mouse no
+#zmeneno
+focus_follows_mouse yes
 
 # change focus
 bindsym $mod+j focus left
@@ -141,30 +143,20 @@ bindsym $mod+minus scratchpad show
 # set $ws3 4:
 
 # switch to workspace
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-
-
-# switch to workspace
-bindsym $mod+KP_1 workspace number 1
-bindsym $mod+KP_2 workspace number 2
-bindsym $mod+KP_3 workspace number 3
-bindsym $mod+KP_4 workspace number 4
-bindsym $mod+KP_5 workspace number 5
-bindsym $mod+KP_6 workspace number 6
-bindsym $mod+KP_7 workspace number 7
-bindsym $mod+KP_8 workspace number 8
-
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
 
 #navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
+bindsym $mod+XF86Back workspace prev
+bindsym $mod+XF86Forward workspace next
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace number 1
@@ -186,34 +178,13 @@ bindsym $mod+Shift+6 move container to workspace number 6; workspace 6
 bindsym $mod+Shift+7 move container to workspace number 7; workspace 7
 bindsym $mod+Shift+8 move container to workspace number 8; workspace 8
 
-##Moje  
-#bindsym $mod2+Left move workspace to output left
-#bindsym $mod2+Right move workspace to output right
-#moje
-
-####
-# xprop [ pro ziskani class a dalsich ]
-###
-
-###Citrix related
-
-for_window [class="Wfica" title="02 OA Prod.*"] move to workspace 1: O2; move workspace to output left
-for_window [class="Wfica" title="21 PS.*"] move to workspace 2: 21; move workspace to output right
-for_window [class="Wfica_YesNoConfirm"] floating enable
-for_window [title="NX - oo945.*"] move to workspace 4: NX
-
-
-
 # Open applications on specific workspaces
 # assign [class="Thunderbird"] 1
-
-assign [class="Pale moon"] 3: FFox
-
+# assign [class="Pale moon"] 2
 # assign [class="Pcmanfm"] 3
 # assign [class="Skype"] 5
 
 # Open specific applications in floating mode
-#
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="Calamares"] floating enable border normal
 for_window [class="Clipgrab"] floating enable
@@ -239,10 +210,10 @@ for_window [class="Thus"] floating enable border normal
 for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
-
-######
-## ziskavani udaji skrz "xprop"
-###
+#moje
+for_window [class="Meld"] floating enable border normal
+for_window [class="chromium" window_role="pop-up"] floating enable
+for_window [class="Keepassx"] floating enable border normal
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -298,33 +269,24 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym $mod+9 exec --no-startup-id xscreensaver-command -lock
+bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
 ## adjustment of i3bar battery reading (only run at the very first login):
 #exec --no-startup-id /usr/bin/adjust_i3statusconf
-
-# ZZ dualhead
-exec --no-startup-id xrandr --output DP-1 --auto --output DVI-I-1 --auto --left-of DP-1 --primary
-#
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id xrandr --output LVDS-1 --auto --output DP-3 --auto --primary --left-of LVDS-1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
-#exec --no-startup-id xfce4-power-manager
+exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
-#
 # exec --no-startup-id blueman
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
-#exec --no-startup-id xautolock -time 10 -locker blurlock
-exec --no-startup-id xscreensaver -nosplash
-
-#
-exec --no-startup-id autossh -N -M 12313 -D 3228 -L 3389:gelso.dyndns.org:3389  z@zvm 
-exec palemoon
-exec --no-startup-id guake
+exec --no-startup-id xautolock -time 10 -locker blurlock
+exec --no-startup-id chromium
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
