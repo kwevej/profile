@@ -1,3 +1,7 @@
-# profile
+# Clone to existing folder (home)
 
-http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
+cd
+git init
+git remote add origin https://github.com/kwevej/profile/
+git fetch
+git checkout -t origin/master
